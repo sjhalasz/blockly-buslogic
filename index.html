@@ -5,11 +5,13 @@
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
      eval(xhttp.responseText);
+     scriptCount++;
     }
   };
   xhttp.open("GET", url, true);
   xhttp.send();
 }
+scriptCount = 0;
 loadJS("https://raw.githubusercontent.com/google/blockly/master/blockly_compressed.js");
 loadJS("https://raw.githubusercontent.com/google/blockly/master/blocks_compressed.js");
 loadJS("https://raw.githubusercontent.com/google/blockly/master/javascript_compressed.js");
@@ -29,6 +31,7 @@ loadJS("https://raw.githubusercontent.com/google/blockly/master/msg/js/en.js");
 </xml>
 
 <script>
+  while(scriptCount < 4);
   var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});
 </script>
 
