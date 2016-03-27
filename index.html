@@ -4,8 +4,8 @@
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-     if(scripts.length) loadJS();
      eval('try{' + xhttp.responseText + '}catch{alert("oops");}');
+     if(scripts.length) loadJS();
     }
   };
   xhttp.open("GET", scripts.shift(), true);
