@@ -58,3 +58,42 @@ Blockly.Blocks['conditional'] = {
   }
 };
 
+Blockly.Blocks['comparison'] = {
+  init: function() {
+    this.appendValueInput("left")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["=", "equals"], ["<", "lessthan"], [">", "greaterthan"]]), "NAME");
+    this.appendValueInput("right")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks['variable'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldVariable("<variable name>"), "NAME");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(260);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks['value'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("<value>"), "value");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
