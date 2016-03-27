@@ -4,7 +4,7 @@
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-     if(scripts) loadJS();
+     if(scripts.length) loadJS();
      eval(xhttp.responseText);
     }
   };
@@ -34,7 +34,7 @@ scripts = [
 
 <script>
   function wait4Scripts(){
-    if(scripts) {setTimeout(wait4Scripts, 100);}
+    if(scripts.length) {setTimeout(wait4Scripts, 100);}
     else {var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});}
   }
   setTimeout(wait4Scripts, 100);
