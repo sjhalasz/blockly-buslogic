@@ -40,7 +40,7 @@ Blockly.Blocks['client'] = {
 
 Blockly.Blocks['conditional'] = {
   init: function() {
-    this.appendValueInput("NAME")
+    this.appendStatementInput("condition")
         .setCheck(null)
         .appendField("if");
     this.appendStatementInput("true")
