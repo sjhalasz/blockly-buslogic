@@ -37,3 +37,24 @@ Blockly.Blocks['client'] = {
     this.setHelpUrl('http://www.example.com/');
   }
 };
+
+Blockly.Blocks['conditional'] = {
+  init: function() {
+    this.appendValueInput("NAME")
+        .setCheck(null)
+        .appendField("if");
+    this.appendStatementInput("true")
+        .setCheck(null)
+        .appendField("then");
+    this.appendStatementInput("false")
+        .setCheck(null)
+        .appendField("else");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(65);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
