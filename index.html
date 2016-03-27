@@ -31,7 +31,7 @@ loadJS("https://raw.githubusercontent.com/google/blockly/master/msg/js/en.js");
 </xml>
 
 <script>
-  function wait4scripts(){
+  function wait4Scripts(){
     if(scriptCount < 4) {setTimeout(wait4Scripts, 1000);}
     else {var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});}
   }
