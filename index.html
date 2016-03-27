@@ -1,21 +1,23 @@
 <html>
 <script>
-  function loadJS(url) {
+  function loadJS() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-     scriptCount++;
+     if(scripts) loadJS();
      eval(xhttp.responseText);
     }
   };
-  xhttp.open("GET", url, true);
+  xhttp.open("GET", scripts.shift(), true);
   xhttp.send();
 }
-scriptCount = 0;
-loadJS("https://raw.githubusercontent.com/google/blockly/master/blockly_compressed.js");
-loadJS("https://raw.githubusercontent.com/google/blockly/master/blocks_compressed.js");
-loadJS("https://raw.githubusercontent.com/google/blockly/master/javascript_compressed.js");
-loadJS("https://raw.githubusercontent.com/google/blockly/master/msg/js/en.js");
+scripts = [
+ "https://raw.githubusercontent.com/google/blockly/master/blockly_compressed.js",
+ "https://raw.githubusercontent.com/google/blockly/master/blocks_compressed.js",
+ "https://raw.githubusercontent.com/google/blockly/master/javascript_compressed.js",
+ "https://raw.githubusercontent.com/google/blockly/master/msg/js/en.js"
+ ];
+ loadJS();
 </script>
 
 <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
@@ -32,10 +34,10 @@ loadJS("https://raw.githubusercontent.com/google/blockly/master/msg/js/en.js");
 
 <script>
   function wait4Scripts(){
-    if(scriptCount < 4) {setTimeout(wait4Scripts, 1000);}
+    if(scripts) {setTimeout(wait4Scripts, 100);}
     else {var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});}
   }
-  setTimeout(wait4Scripts, 1000);
+  setTimeout(wait4Scripts, 100);
 </script>
 
 </html>
