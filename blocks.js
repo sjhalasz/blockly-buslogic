@@ -60,14 +60,12 @@ Blockly.Blocks['conditional'] = {
 
 Blockly.Blocks['comparison'] = {
   init: function() {
-    this.appendValueInput("left")
-        .setCheck(null);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["=", "equals"], ["<", "lessthan"], [">", "greaterthan"]]), "NAME");
-    this.appendValueInput("right")
-        .setCheck(null);
+    this.appendStatementInput("NAME")
+        .setCheck(null)
+        .appendField(new Blockly.FieldDropdown([["equals", "equals"], ["less than", "less than"], ["greater than", "greater than"]]), "NAME");
     this.setInputsInline(true);
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(330);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
@@ -77,10 +75,11 @@ Blockly.Blocks['comparison'] = {
 Blockly.Blocks['variable'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldVariable("<variable name>"), "NAME");
+        .appendField(new Blockly.FieldVariable("<variable name>"), "variableName");
     this.setInputsInline(true);
-    this.setOutput(true, null);
-    this.setColour(260);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
@@ -91,9 +90,9 @@ Blockly.Blocks['value'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput("<value>"), "value");
     this.setInputsInline(true);
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
 };
-
