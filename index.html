@@ -1,9 +1,20 @@
 <html>
-
-<script src="https://raw.githubusercontent.com/google/blockly/master/blockly_compressed.js"></script>
-<script src="https://raw.githubusercontent.com/google/blockly/master/javascript_compressed.js"></script>
-<script src="https://raw.githubusercontent.com/google/blockly/master/blocks_compressed.js"></script>
-<script src="https://raw.githubusercontent.com/google/blockly/master/msg/js/en.js"></script>
+<script>
+  function loadJS(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+     eval(xhttp.responseText);
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+loadJS("https://raw.githubusercontent.com/google/blockly/master/blockly_compressed.js");
+loadJS("https://raw.githubusercontent.com/google/blockly/master/blocks_compressed.js");
+loadJS("https://raw.githubusercontent.com/google/blockly/master/javascript_compressed.js");
+loadJS("https://raw.githubusercontent.com/google/blockly/master/msg/js/en.js");
+</script>
 
 <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 
