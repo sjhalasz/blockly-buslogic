@@ -5,7 +5,7 @@
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
      if(scripts.length) loadJS();
-     eval(xhttp.responseText);
+     eval('try{' + xhttp.responseText + '}catch{alert("oops");}');
     }
   };
   xhttp.open("GET", scripts.shift(), true);
