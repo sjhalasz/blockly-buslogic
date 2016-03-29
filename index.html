@@ -46,7 +46,7 @@
       var r = "";
       if(dom.childNodes.length != 1) throw 'expected exactly one root block';
       var code = dom.childNodes[0]; // get code from <xml> wrapper
-      testAttribute(root, 'type', 'settlement_days');
+      testAttribute(code, 'type', 'settlement_days');
     }
     function getAttribute(node, name){
       var attributes = node.attributes;
