@@ -28,7 +28,7 @@ Blockly.Blocks['set_variable'] = {
 Blockly.Blocks['client'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("client_code")
+        .appendField("client")
         .appendField(new Blockly.FieldDropdown([["AFV", "afv"], ["BFF", "bff"], ["DNC", "dnc"], ["GBF", "gbf"], ["JQF", "jqf"], ["JSF", "jsf"], ["LLB", "llb"], ["MSB", "msb"], ["PPR", "ppr"]]), "client_code_dropdown");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
