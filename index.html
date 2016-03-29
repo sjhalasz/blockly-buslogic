@@ -79,7 +79,7 @@
           if(children.length = 2){
             n = children[1];
             if(n.tagName != "NEXT") throw 'expected "NEXT" node in "set_variable"';
-            r = r , translateNodes(n.childNodes);
+            r = r , translateBlocks(n.childNodes);
           }
       }      
       return r;
