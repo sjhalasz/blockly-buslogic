@@ -47,7 +47,7 @@
       if(dom.childNodes.length != 1) throw 'expected exactly one "settlement days" block';
       var code = dom.childNodes[0]; // get code from <xml> wrapper
       if(code.tagName != "BLOCK") throw 'expected "BLOCK" tag on "settlement_days" block';
-      if((getAttribute(code, 'type') !='settlement_days') throw 'expected block of type "settlement_days"';
+      if(getAttribute(code, 'type') !='settlement_days') throw 'expected block of type "settlement_days"';
       code = code.childNodes;
       if(code.length != 1) throw 'expected exactly one "days_calculation" statements input';
       code = code[0];
