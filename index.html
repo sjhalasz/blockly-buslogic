@@ -54,7 +54,7 @@
       if(code.tagName != 'STATEMENT') throw 'expected "STATEMENT" tag for "days_calculation"';
       if(getAttribute(code, 'name') != 'days_calculation') throw 'expected name to be "days_calculation"';
       var r = translateBlocks(code.childNodes);
-      return '<settlement_days>' + r + '</settlement_days>';
+      return '<settlement_days>\n' + r + '</settlement_days>\n';
     }
     function getAttribute(node, name){
       var attributes = node.attributes;
@@ -72,7 +72,7 @@
           if(n.tagName != "FIELD") throw 'expected FIELD tag in set_variable child';
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
           var variableName = n.innerText;
-          r = '<set_variable>' + variableName + '</set_variable>';
+          r = '<set_variable>\n' + variableName + '\n</set_variable>\n';
           // if there's another child node in node0 it's a "NEXT" ...
       }      
       return r;
