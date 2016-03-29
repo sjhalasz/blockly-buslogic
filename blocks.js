@@ -11,7 +11,7 @@ Blockly.Blocks['settlement_days'] = {
 
 Blockly.Blocks['set_variable'] = {
   init: function() {
-    this.appendStatementInput("set_variable_name")
+    this.appendStatementInput("variable_value")
         .setCheck(null)
         .appendField("set")
         .appendField(new Blockly.FieldVariable("<variable name>"), "variable_name")
@@ -29,7 +29,7 @@ Blockly.Blocks['client'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("client")
-        .appendField(new Blockly.FieldDropdown([["AFV", "afv"], ["BFF", "bff"], ["DNC", "dnc"], ["GBF", "gbf"], ["JQF", "jqf"], ["JSF", "jsf"], ["LLB", "llb"], ["MSB", "msb"], ["PPR", "ppr"]]), "client_code_dropdown");
+        .appendField(new Blockly.FieldDropdown([["AFV", "afv"], ["BFF", "bff"], ["DNC", "dnc"], ["GBF", "gbf"], ["JQF", "jqf"], ["JSF", "jsf"], ["LLB", "llb"], ["MSB", "msb"], ["PPR", "ppr"]]), "client_code");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(20);
@@ -43,10 +43,10 @@ Blockly.Blocks['conditional'] = {
     this.appendStatementInput("condition")
         .setCheck(null)
         .appendField("if");
-    this.appendStatementInput("condition_true_statements")
+    this.appendStatementInput("true_statements")
         .setCheck(null)
         .appendField("then");
-    this.appendStatementInput("condition_false_statements")
+    this.appendStatementInput("false_statements")
         .setCheck(null)
         .appendField("else");
     this.setInputsInline(true);
@@ -58,11 +58,24 @@ Blockly.Blocks['conditional'] = {
   }
 };
 
+Blockly.Blocks['conjunction'] = {
+  init: function() {
+    this.appendStatementInput("conjunction_statements")
+        .setCheck(null)
+        .appendField(new Blockly.FieldDropdown([["and", "and"], ["or", "or"]]), "conjunction_opertor");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
 Blockly.Blocks['comparison'] = {
   init: function() {
-    this.appendStatementInput("comparison_operator")
+    this.appendStatementInput("comparison_statement")
         .setCheck(null)
-        .appendField(new Blockly.FieldDropdown([["equals", "equals"], ["less than", "less than"], ["greater than", "greater than"]]), "comparison_operator_dropdown");
+        .appendField(new Blockly.FieldDropdown([["equals", "equals"], ["less than", "less than"], ["greater than", "greater than"]]), "comparison_operator");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
