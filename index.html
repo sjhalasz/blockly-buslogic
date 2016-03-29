@@ -59,7 +59,7 @@
       var attr = getAttribute(node, name);
       if((!attr) || attr.value != value) throw 'expected attribute ' + name + ' = ' + value;
     }
-    function processNode(nodes, front, back){
+    function processNodes(nodes, front, back){
       var r = rr = '', node;
       for(var i = 0; i < nodes.length; i++){
         node = nodes[i];      
