@@ -63,17 +63,24 @@
       }
     }
     function translateBlocks(nodes){
+      if(nodes.length != 1) throw 'expected exactly 1 child node in translateBlocks';
       var node0 = nodes[0];
       if(!node0.tagName == "BLOCK") throw 'expected BLOCK tag';
       var type = getAttribute(node0, 'type');
       switch(type){
         case 'set_variable':
-          var n = node0.childNodes[0];
+          var children = node0.childNodes;
+          var n = children[0];
           if(n.tagName != "FIELD") throw 'expected FIELD tag in set_variable child';
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
           var variableName = n.innerText;
           r = '<set_variable>\n' + variableName + '\n</set_variable>\n';
           // if there's another child node in node0 it's a "NEXT" ...
+          if(children.length = 2){
+            n = children[1];
+            if(n.tagName != "NEXT") throw 'expected "NEXT" node in "set_variable"';
+            r = r , translateNodes(n.childNodes);
+          }
       }      
       return r;
     }
