@@ -39,14 +39,15 @@
     var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});
     function myUpdateFunction(event) {
       var dom = Blockly.Xml.workspaceToDom(workspace);
-      document.getElementById('textarea').value = dom.innerHTML;
+      document.getElementById('textarea').value = TranslateDom(dom);
     }
     workspace.addChangeListener(myUpdateFunction);  
     function translateDom(dom){
-      var r = "";
-      if(dom.childNodes.length != 1) throw 'expected exactly one root block';
+      if(dom.childNodes.length != 1) throw 'expected exactly one "settlement days" block';
       var code = dom.childNodes[0]; // get code from <xml> wrapper
       testAttribute(code, 'type', 'settlement_days');
+      var r = processNodes(code.childNodes, '<settlement_days>', '</settlement_days>');
+      return r;
     }
     function getAttribute(node, name){
       var attributes = node.attributes;
@@ -57,6 +58,18 @@
     function testAttribute(node, name, value){
       var attr = getAttribute(node, name);
       if((!attr) || attr.value != value) throw 'expected attribute ' + name + ' = ' + value;
+    }
+    function processNode(nodes, front, back){
+      var r = rr = '', node;
+      for(var i = 0; i < nodes.length; i++){
+        node = nodes[i];      
+        if(node.tagName == "NEXT"){
+          rr = processNode(node.childNodes, '', '')
+        } else {
+          
+        }
+      }
+      return front + r + back;
     }
 </script>
 
