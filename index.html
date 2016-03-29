@@ -76,7 +76,7 @@
           var variableName = n.innerText;
           r = '<set_variable>\n' + variableName + '\n</set_variable>\n';
           // if there's another child node in node0 it's a "NEXT" ...
-          if(children.length = 2){
+          if(children.length == 2){
             n = children[1];
             if(n.tagName != "NEXT") throw 'expected "NEXT" node in "set_variable"';
             r = r , translateBlocks(n.childNodes);
