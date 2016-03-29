@@ -38,7 +38,7 @@
     var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});
     function myUpdateFunction(event) {
       var code = Blockly.Xml.workspaceToDom(workspace);
-      document.getElementById('textarea').value = code;
+      document.getElementById('textarea').value = code.innerHTML;
     }
     workspace.addChangeListener(myUpdateFunction);  
 </script>
