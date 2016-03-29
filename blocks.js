@@ -38,7 +38,7 @@ Blockly.Blocks['client'] = {
   }
 };
 
-Blockly.Blocks['conditional_block'] = {
+Blockly.Blocks['conditional'] = {
   init: function() {
     this.appendStatementInput("condition")
         .setCheck(null)
