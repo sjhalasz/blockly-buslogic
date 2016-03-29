@@ -45,11 +45,12 @@
     function translateDom(dom){
       if(dom.childNodes.length != 1) throw 'expected exactly one "settlement days" block';
       var code = dom.childNodes[0]; // get code from <xml> wrapper
+      if(code.tagName != "BLOCK") throw 'expected "BLOCK" tag on "settlement_days" block';
       testAttribute(code, 'type', 'settlement_days');
       code = code.childNodes;
       if(code.length != 1) throw 'expected exactly one "days_calculation" statements input';
       code = code[0];
-      if(code.tagName != 'statement') throw 'expected statement tag for "days_calculation"';
+      if(code.tagName != 'STATEMENT') throw 'expected statement tag for "days_calculation"';
       testAttribute(code, 'name', 'days_calculation')
       var r = processNodes(code.childNodes, '<settlement_days>', '</settlement_days>');
       return r;
