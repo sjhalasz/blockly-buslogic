@@ -38,10 +38,27 @@
   <script>
     var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});
     function myUpdateFunction(event) {
-      var code = Blockly.Xml.workspaceToDom(workspace);
-      document.getElementById('textarea').value = code.innerHTML;
+      var dom = Blockly.Xml.workspaceToDom(workspace);
+      document.getElementById('textarea').value = dom.innerHtml;
     }
     workspace.addChangeListener(myUpdateFunction);  
+    function translateDom(dom){
+      var r = "";
+      var code = dom.childNodes[0]; // get code from <xml> wrapper
+      if(code.childNodes.length !=1) throw 'expected exactly one root block';
+      var root = code.childNodes[0]; // get one and only root block
+      testAttribute(root, 'name', 'settlement_days'));
+    }
+    function getAttribute(node, name){
+      var attributes = node.attributes;
+      for(var i = 0; i < attributes.length; i++){
+        if(attributes[i].name == name) return attributes[i];
+      }
+    }
+    function testAttribute(node, name, value){
+      var attr = getAttribute(node, name);
+      if((!attr) || attr.value != value) throw 'expected attribute ' + name + ' = ' + value;
+    }
 </script>
 
 </body>
