@@ -66,23 +66,38 @@
       if(nodes.length != 1) throw 'expected exactly 1 child node in translateBlocks';
       var node0 = nodes[0];
       if(!node0.tagName == "BLOCK") throw 'expected BLOCK tag';
+      var children = node0.childNodes;
+      var n = children[0]; // guaranteed to be a node here
+      var count = 1;
+      if(n.tagName != "FIELD") throw 'expected FIELD node in BLOCK';
       var type = getAttribute(node0, 'type');
       switch(type){
         case 'set_variable':
-          var children = node0.childNodes;
-          var n = children[0];
-          if(n.tagName != "FIELD") throw 'expected FIELD tag in set_variable child';
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
           var variableName = n.innerText;
           if(isInvalidVariableName(variableName)) throw "variable name can't have < > & %";
           r = '<set_variable name="' + variableName + '">\n' + '' + '</set_variable>\n';
-          // if there's another child node in node0 it's a "NEXT" ...
-          if(children.length == 2){
-            n = children[1];
-            if(n.tagName != "NEXT") throw 'expected "NEXT" node in "set_variable"';
-            r = r + translateBlocks(n.childNodes);
+          // may or may not be a "statement" node here with name "variable_value"
+          if(children.length > count){
+            n = children[count];
+            if(n.tagName == "STATEMENT"){
+              count++;
+              if(getAttribute(n, 'name') != 'variable_value') throw 'expected STATEMENT with name "variable_value"';
+              r = '<variable_value>\n' + translateBlocks(n.children) + '</variable_value>\n'
+            }
+          }
+        case 'client':
+          if(getAttribute(n, 'name') != 'client_code') throw 'expected FIELD node named "client_code"';
+          var clientCode = n.innerText;
+          r = '<client_code>' + clientCode + '</client_code>\n';
           }
       }      
+      // if there's another child node in node0 it's a "NEXT" ...
+      if(children.length > count){
+        n = children[count];
+        if(n.tagName != "NEXT") throw 'expected "NEXT" node in "set_variable"';
+        r = r + translateBlocks(n.childNodes);
+      }
       return r;
     }
     function isInvalidVariableName(name){
