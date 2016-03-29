@@ -71,7 +71,7 @@
           var n = node0.childNodes[0];
           if(n.tagName != "FIELD") throw 'expected FIELD tag in set_variable child';
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
-          var variable_name = n.innerText;
+          var variableName = n.innerText;
           r = '<set_variable>' + variableName + '</set_variable>';
           // if there's another child node in node0 it's a "NEXT" ...
       }      
