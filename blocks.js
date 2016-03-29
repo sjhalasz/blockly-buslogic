@@ -1,6 +1,6 @@
 Blockly.Blocks['settlement_days'] = {
   init: function() {
-    this.appendStatementInput("days")
+    this.appendStatementInput("days_calculation")
         .setCheck(null)
         .appendField("Settlement Days");
     this.setInputsInline(false);
@@ -11,10 +11,10 @@ Blockly.Blocks['settlement_days'] = {
 
 Blockly.Blocks['set_variable'] = {
   init: function() {
-    this.appendStatementInput("set_variable")
+    this.appendStatementInput("set_variable_name")
         .setCheck(null)
         .appendField("set")
-        .appendField(new Blockly.FieldVariable("<variable name>"), "variable")
+        .appendField(new Blockly.FieldVariable("<variable name>"), "variable_name")
         .appendField("to");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
@@ -28,8 +28,8 @@ Blockly.Blocks['set_variable'] = {
 Blockly.Blocks['client'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("client")
-        .appendField(new Blockly.FieldDropdown([["AFV", "afv"], ["BFF", "bff"], ["DNC", "dnc"], ["GBF", "gbf"], ["JQF", "jqf"], ["JSF", "jsf"], ["LLB", "llb"], ["MSB", "msb"], ["PPR", "ppr"]]), "client_dropdown");
+        .appendField("client_code")
+        .appendField(new Blockly.FieldDropdown([["AFV", "afv"], ["BFF", "bff"], ["DNC", "dnc"], ["GBF", "gbf"], ["JQF", "jqf"], ["JSF", "jsf"], ["LLB", "llb"], ["MSB", "msb"], ["PPR", "ppr"]]), "client_code_dropdown");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(20);
@@ -38,15 +38,15 @@ Blockly.Blocks['client'] = {
   }
 };
 
-Blockly.Blocks['conditional'] = {
+Blockly.Blocks['conditional_block'] = {
   init: function() {
     this.appendStatementInput("condition")
         .setCheck(null)
         .appendField("if");
-    this.appendStatementInput("true")
+    this.appendStatementInput("condition_true_statements")
         .setCheck(null)
         .appendField("then");
-    this.appendStatementInput("false")
+    this.appendStatementInput("condition_false_statements")
         .setCheck(null)
         .appendField("else");
     this.setInputsInline(true);
@@ -75,7 +75,7 @@ Blockly.Blocks['comparison'] = {
 Blockly.Blocks['variable'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldVariable("<variable name>"), "variableName");
+        .appendField(new Blockly.FieldVariable("<variable name>"), "variable_name");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -88,7 +88,7 @@ Blockly.Blocks['variable'] = {
 Blockly.Blocks['value'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput("<value>"), "value");
+        .appendField(new Blockly.FieldTextInput("<value>"), "value_input");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
