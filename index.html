@@ -83,15 +83,16 @@
             if(n.tagName == "STATEMENT"){
               count++;
               if(getAttribute(n, 'name') != 'variable_value') throw 'expected STATEMENT with name "variable_value"';
-              r = '<variable_value>\n' + translateBlocks(n.children) + '</variable_value>\n'
+              r = '<variable_value>\n' + translateBlocks(n.children) + '</variable_value>\n';
             }
           }
+          break;
         case 'client':
           if(getAttribute(n, 'name') != 'client_code') throw 'expected FIELD node named "client_code"';
           var clientCode = n.innerText;
           r = '<client_code>' + clientCode + '</client_code>\n';
-          }
-      }      
+          break;
+      }
       // if there's another child node in node0 it's a "NEXT" ...
       if(children.length > count){
         n = children[count];
