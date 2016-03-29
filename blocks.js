@@ -62,7 +62,7 @@ Blockly.Blocks['conjunction'] = {
   init: function() {
     this.appendStatementInput("conjunction_statements")
         .setCheck(null)
-        .appendField(new Blockly.FieldDropdown([["any", "all"], ["any", "all"]]), "conjunction_opertor");
+        .appendField(new Blockly.FieldDropdown([["any", "all"], ["any", "all"]]), "conjunction_operator");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(330);
