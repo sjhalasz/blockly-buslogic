@@ -83,7 +83,7 @@
             if(n.tagName == "STATEMENT"){
               count++;
               if(getAttribute(n, 'name') != 'variable_value') throw 'expected STATEMENT with name "variable_value"';
-              r = '<variable_value>\n' + translateBlocks(n.children) + '</variable_value>\n';
+              r += '<variable_value>\n' + translateBlocks(n.children) + '</variable_value>\n';
             }
           }
           break;
@@ -97,7 +97,7 @@
       if(children.length > count){
         n = children[count];
         if(n.tagName != "NEXT") throw 'expected "NEXT" node in "set_variable"';
-        r = r + translateBlocks(n.childNodes);
+        r += translateBlocks(n.childNodes);
       }
       return r;
     }
