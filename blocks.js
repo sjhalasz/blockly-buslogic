@@ -11,7 +11,7 @@ Blockly.Blocks['settlement_days'] = {
 
 Blockly.Blocks['set_variable'] = {
   init: function() {
-    this.appendStatementInput("NAME")
+    this.appendStatementInput("set_variable")
         .setCheck(null)
         .appendField("set")
         .appendField(new Blockly.FieldVariable("<variable name>"), "variable")
@@ -29,7 +29,7 @@ Blockly.Blocks['client'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("client")
-        .appendField(new Blockly.FieldDropdown([["AFV", "afv"], ["BFF", "bff"], ["DNC", "dnc"], ["GBF", "gbf"], ["JQF", "jqf"], ["JSF", "jsf"], ["LLB", "llb"], ["MSB", "msb"], ["PPR", "ppr"]]), "NAME");
+        .appendField(new Blockly.FieldDropdown([["AFV", "afv"], ["BFF", "bff"], ["DNC", "dnc"], ["GBF", "gbf"], ["JQF", "jqf"], ["JSF", "jsf"], ["LLB", "llb"], ["MSB", "msb"], ["PPR", "ppr"]]), "client_dropdown");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(20);
@@ -60,9 +60,9 @@ Blockly.Blocks['conditional'] = {
 
 Blockly.Blocks['comparison'] = {
   init: function() {
-    this.appendStatementInput("NAME")
+    this.appendStatementInput("comparison_operator")
         .setCheck(null)
-        .appendField(new Blockly.FieldDropdown([["equals", "equals"], ["less than", "less than"], ["greater than", "greater than"]]), "NAME");
+        .appendField(new Blockly.FieldDropdown([["equals", "equals"], ["less than", "less than"], ["greater than", "greater than"]]), "comparison_operator_dropdown");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
