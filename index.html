@@ -39,7 +39,7 @@
     var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});
     function myUpdateFunction(event) {
       var dom = Blockly.Xml.workspaceToDom(workspace);
-      document.getElementById('textarea').value = TranslateDom(dom);
+      document.getElementById('textarea').value = translateDom(dom);
     }
     workspace.addChangeListener(myUpdateFunction);  
     function translateDom(dom){
