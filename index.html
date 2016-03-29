@@ -43,39 +43,38 @@
     }
     workspace.addChangeListener(myUpdateFunction);  
     function translateDom(dom){
+      if(dom.tagName != 'XML') throw 'expected XML tag';
       if(dom.childNodes.length != 1) throw 'expected exactly one "settlement days" block';
       var code = dom.childNodes[0]; // get code from <xml> wrapper
       if(code.tagName != "BLOCK") throw 'expected "BLOCK" tag on "settlement_days" block';
-      testAttribute(code, 'type', 'settlement_days');
+      if((getAttribute(code, 'type') !='settlement_days') throw 'expected block of type "settlement_days"';
       code = code.childNodes;
       if(code.length != 1) throw 'expected exactly one "days_calculation" statements input';
       code = code[0];
-      if(code.tagName != 'STATEMENT') throw 'expected statement tag for "days_calculation"';
-      testAttribute(code, 'name', 'days_calculation')
-      var r = processNodes(code.childNodes, '<settlement_days>', '</settlement_days>');
-      return r;
+      if(code.tagName != 'STATEMENT') throw 'expected "STATEMENT" tag for "days_calculation"';
+      if(getAttribute(code, 'name') != 'days_calculation') throw 'expected name to be "days_calculation"';
+      var r = translateBlocks(code.childNodes);
+      return '<settlement_days>' + r + '</settlement_days>';
     }
     function getAttribute(node, name){
       var attributes = node.attributes;
       for(var i = 0; i < attributes.length; i++){
-        if(attributes[i].name == name) return attributes[i];
+        if(attributes[i].name == name) return attributes[i].value;
       }
     }
-    function testAttribute(node, name, value){
-      var attr = getAttribute(node, name);
-      if((!attr) || attr.value != value) throw 'expected attribute ' + name + ' = ' + value;
-    }
-    function processNodes(nodes, front, back){
-      var r = rr = '', node;
-      for(var i = 0; i < nodes.length; i++){
-        node = nodes[i];      
-        if(node.tagName == "NEXT"){
-          rr = processNode(node.childNodes, '', '')
-        } else {
-          
-        }
-      }
-      return front + r + back;
+    function translateBlocks(nodes){
+      var node0 = nodes[0];
+      if(!node0.tagName == "BLOCK") throw 'expected BLOCK tag';
+      var type = getAttribute(node0, 'type');
+      switch(type){
+        case 'set_variable':
+          var n = node0.childNodes[0];
+          if(n.tagName != "FIELD") throw 'expected FIELD tag in set_variable child';
+          if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
+          var variable_name = n.innerText;
+          r = '<set_variable>' + variableName + '</set_variable>';
+          // if there's another child node in node0 it's a "NEXT" ...
+      }      
     }
 </script>
 
