@@ -74,7 +74,8 @@
           if(n.tagName != "FIELD") throw 'expected FIELD tag in set_variable child';
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
           var variableName = n.innerText;
-          r = '<set_variable>\n' + variableName + '\n</set_variable>\n';
+          if(isInvalidVariableName(variableName)) throw "variable name can't have < > & %";
+          r = '<set_variable name="' + variableName + '">\n' + '' + '</set_variable>\n';
           // if there's another child node in node0 it's a "NEXT" ...
           if(children.length == 2){
             n = children[1];
@@ -83,6 +84,9 @@
           }
       }      
       return r;
+    }
+    function isInvalidVariableName(name){
+      return /[<>&%]/g.test(name);
     }
 </script>
 
