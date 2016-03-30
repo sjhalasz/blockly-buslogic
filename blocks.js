@@ -42,8 +42,7 @@ Blockly.Blocks['conditional'] = {
   init: function() {
     this.appendStatementInput("condition")
         .setCheck(null)
-        .appendField("if")
-        .appendField(new Blockly.FieldDropdown([["all", "all"], ["any", "any"]]), "conjunction");
+        .appendField("if");
     this.appendStatementInput("true_statements")
         .setCheck(null)
         .appendField("then");
@@ -67,6 +66,17 @@ Blockly.Blocks['comparison'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks['conjunction'] = {
+  init: function() {
+    this.appendStatementInput("conjunction_statement")
+        .setCheck(null)
+        .appendField(new Blockly.FieldDropdown([["all", "all"], ["any", "any"]]), "conjunction_operator");
     this.setColour(330);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
