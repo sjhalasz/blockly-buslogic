@@ -85,9 +85,7 @@
             if(n.tagName == "STATEMENT"){
               count++;
               if(getAttribute(n, 'name') != 'variable_value') throw 'expected STATEMENT with name "variable_value"';
-              indent++;
-              r += indentIt() + '<variable_value>\n' + translateBlocks(n.children) + indentIt() + '</variable_value>\n';
-              indent--;
+              r += translateBlocks(n.children);
             }
           }
           r +=  indentIt() + '</set_variable>\n';
