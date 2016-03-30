@@ -97,6 +97,18 @@
           var clientCode = n.innerText;
           r = indentIt() + '<client_code>' + clientCode + '</client_code>\n';
           break;
+        case 'conditional':
+          r = indentIt() + '<conditional>';
+          count = 0;
+          while(children.length > count){
+            n = children[count];
+            if(n.tagName == "STATEMENT"){
+              count++;
+              
+            }
+          }
+          r += indentIt() + '</conditional>';
+          break;
         default:
           throw 'unknown type';
           break;
