@@ -95,6 +95,9 @@
           var clientCode = n.innerText;
           r = indentIt() + '<client_code>' + clientCode + '</client_code>\n';
           break;
+        default:
+          throw 'unknown type';
+          break;
       }
       indent--;
       // if there's another child node in node0 it's a "NEXT" ...
