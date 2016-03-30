@@ -106,7 +106,8 @@
             n = children[count];
             if(n.tagName != "STATEMENT")break;
             count++;
-            switch(getAttribute(n, 'name')){
+            var name = getAttribute(n, 'name');
+            switch(name){
               case 'condition':
                 r += indentIt() + '<condition>\n';
                 r += translateBlocks(n.childNodes);
@@ -118,6 +119,8 @@
               case '':
                 
                 break;
+              default:
+                throw 'name not found: ' + name;
             }
           }
           indent--;
@@ -129,27 +132,26 @@
           if(n.tagName != 'FIELD') throw 'expected FIELD node';
           if(getAttribute(n, 'name') != 'comparison_operator') throw 'expected FIELD node named "comparison_operator"';
           r = indentIt() + '<comparison operator="' + n.innerText + '">\n';
-          indent++;
-          while(children.length > count){
-            n = children[count];
-            if(n.tagName != "STATEMENT")break;
-            count++;
-            switch(getAttribute(n, 'name')){
-              case 'condition':
-                r += indentIt() + '<condition>\n';
-                r += translateBlocks(n.childNodes);
-                r += indentIt() + '</condition>\n';
-                break;
-              case '':
-                
-                break;
-              case '':
-                
-                break;
-            }
-          }
-          indent--;
-          r += indentIt() + '</conditional>\n';
+          n = children[count];
+          count++;
+          if(n.tagName != "STATEMENT") throw 'expected STATEMENT node';
+          if(getAttribute(n, 'name') != 'comparison_statement') throw 'expected "comparison_statement"';
+          r += translateBlocks(n.childNodes);
+          r += '</comparison>\n';
+          break;
+        case 'variable':
+          n = children[0];
+          count = 1;
+          if(n.tagName != 'FIELD') throw 'expected FIELD node';
+          if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
+          r = indentIt() + '<variable>' + n.innerText + '</variable>\n';
+          break;
+        case 'value':
+          n = children[0];
+          count = 1;
+          if(n.tagName != 'FIELD') throw 'expected FIELD node';
+          if(getAttribute(n, 'name') != 'value_input') throw 'expected FIELD node named "value_input"';
+          r = indentIt() + '<value>' + n.innerText + '</value>\n';
           break;
         default:
           throw 'unknown type: ' + type;
