@@ -85,7 +85,7 @@
             if(n.tagName == "STATEMENT"){
               count++;
               if(getAttribute(n, 'name') != 'variable_value') throw 'expected STATEMENT with name "variable_value"';
-              r += translateBlocks(n.children);
+              r += translateBlocks(n.childNodes);
             }
           }
           r +=  indentIt() + '</set_variable>\n';
@@ -103,12 +103,26 @@
           if(n.tagName != 'FIELD') throw 'expected FIELD node';
           if(getAttribute(n, 'name') != 'conjunction') throw 'expected FIELD node named "conjunction"';
           r = indentIt() + '<conditional conjunction="' + n.innerText + '">\n';
+          indent++;
           while(children.length > count){
             n = children[count];
             if(n.tagName != "STATEMENT")break;
             count++;
-            
+            switch(getAttribute(n, 'name')){
+              case 'condition':
+                r += indentIt() + '<condition>\n';
+                r += translateBlocks(n.childNodes);
+                r += indentIt() + '</condition>\n';
+                break;
+              case '':
+                
+                break;
+              case '':
+                
+                break;
+            }
           }
+          indent--;
           r += indentIt() + '</conditional>\n';
           break;
         default:
