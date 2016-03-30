@@ -53,6 +53,7 @@
       code = code[0];
       if(code.tagName != 'STATEMENT') throw 'expected "STATEMENT" tag for "days_calculation"';
       if(getAttribute(code, 'name') != 'days_calculation') throw 'expected name to be "days_calculation"';
+      indent = 0;
       var r = translateBlocks(code.childNodes);
       return '<settlement_days>\n' + r + '</settlement_days>\n';
     }
@@ -71,28 +72,33 @@
       var count = 1;
       if(n.tagName != "FIELD") throw 'expected FIELD node in BLOCK';
       var type = getAttribute(node0, 'type');
+      indent++;
       switch(type){
         case 'set_variable':
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
           var variableName = n.innerText;
           if(isInvalidVariableName(variableName)) throw "variable name can't have < > & %";
-          r = '<set_variable name="' + variableName + '">\n' + '' + '</set_variable>\n';
+          r = indentIt() + '<set_variable name="' + variableName + '">\n';
           // may or may not be a "statement" node here with name "variable_value"
           if(children.length > count){
             n = children[count];
             if(n.tagName == "STATEMENT"){
               count++;
               if(getAttribute(n, 'name') != 'variable_value') throw 'expected STATEMENT with name "variable_value"';
-              r += '<variable_value>\n' + translateBlocks(n.children) + '</variable_value>\n';
+              indent++;
+              r += indentIt() + '<variable_value>\n' + translateBlocks(n.children) + indentIt() + '</variable_value>\n';
+              indent--;
             }
           }
+          r +=  '</set_variable>\n';
           break;
         case 'client':
           if(getAttribute(n, 'name') != 'client_code') throw 'expected FIELD node named "client_code"';
           var clientCode = n.innerText;
-          r = '<client_code>' + clientCode + '</client_code>\n';
+          r = indentIt() + '<client_code>' + clientCode + indentIt() + '</client_code>\n';
           break;
       }
+      indent--;
       // if there's another child node in node0 it's a "NEXT" ...
       if(children.length > count){
         n = children[count];
@@ -103,6 +109,9 @@
     }
     function isInvalidVariableName(name){
       return /[<>&%'"]/g.test(name);
+    }
+    function indentIt(){
+      return Array((2 * indent) + 1).join(' ');
     }
 </script>
 
