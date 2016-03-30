@@ -98,15 +98,18 @@
           r = indentIt() + '<client_code>' + clientCode + '</client_code>\n';
           break;
         case 'conditional':
-          r = indentIt() + '<conditional>';
-          count = 0;
+          n = children[0];
+          count = 1;
+          if(n.tagName != 'FIELD') throw 'expected FIELD node';
+          if(getAttribute(n, 'name') != 'conjunction') throw 'expected FIELD node named "conjunction"';
+          r = indentIt() + '<conditional conjunction="' + n.innerText + '">\n';
           while(children.length > count){
             n = children[count];
             if(n.tagName != "STATEMENT")break;
             count++;
             
           }
-          r += indentIt() + '</conditional>';
+          r += indentIt() + '</conditional>\n';
           break;
         default:
           throw 'unknown type';
