@@ -68,13 +68,14 @@
       var node0 = nodes[0];
       if(!node0.tagName == "BLOCK") throw 'expected BLOCK tag';
       var children = node0.childNodes;
-      var n = children[0]; // guaranteed to be a node here
-      var count = 1;
-      if(n.tagName != "FIELD") throw 'expected FIELD node in BLOCK';
       var type = getAttribute(node0, 'type');
       indent++;
+      var n, count;
       switch(type){
         case 'set_variable':
+          n = children[0]; 
+          count = 1;
+          if(n.tagName != "FIELD") throw 'expected FIELD node in BLOCK';
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
           var variableName = n.innerText;
           if(isInvalidVariableName(variableName)) throw "variable name can't have < > & %";
@@ -91,6 +92,8 @@
           r +=  indentIt() + '</set_variable>\n';
           break;
         case 'client':
+          n = children[0]; 
+          count = 1;
           if(getAttribute(n, 'name') != 'client_code') throw 'expected FIELD node named "client_code"';
           var clientCode = n.innerText;
           r = indentIt() + '<client_code>' + clientCode + '</client_code>\n';
