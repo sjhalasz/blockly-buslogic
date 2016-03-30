@@ -90,12 +90,12 @@
               indent--;
             }
           }
-          r +=  '</set_variable>\n';
+          r +=  indentIt() + '</set_variable>\n';
           break;
         case 'client':
           if(getAttribute(n, 'name') != 'client_code') throw 'expected FIELD node named "client_code"';
           var clientCode = n.innerText;
-          r = indentIt() + '<client_code>' + clientCode + indentIt() + '</client_code>\n';
+          r = indentIt() + '<client_code>' + clientCode + '</client_code>\n';
           break;
       }
       indent--;
