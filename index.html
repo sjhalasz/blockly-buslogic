@@ -101,6 +101,7 @@
         case 'conditional':
           r = indentIt() + '<conditional>\n';
           indent++;
+          count = 0;
           while(children.length > count){
             n = children[count];
             if(n.tagName != "STATEMENT")break;
