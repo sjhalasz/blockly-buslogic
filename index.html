@@ -98,11 +98,35 @@
           r = indentIt() + '<client_code>' + clientCode + '</client_code>\n';
           break;
         case 'conditional':
+          r = indentIt() + '<conditional>\n';
+          indent++;
+          while(children.length > count){
+            n = children[count];
+            if(n.tagName != "STATEMENT")break;
+            count++;
+            switch(getAttribute(n, 'name')){
+              case 'condition':
+                r += indentIt() + '<condition>\n';
+                r += translateBlocks(n.childNodes);
+                r += indentIt() + '</condition>\n';
+                break;
+              case '':
+                
+                break;
+              case '':
+                
+                break;
+            }
+          }
+          indent--;
+          r += indentIt() + '</conditional>\n';
+          break;
+        case 'comparison':
           n = children[0];
           count = 1;
           if(n.tagName != 'FIELD') throw 'expected FIELD node';
-          if(getAttribute(n, 'name') != 'conjunction') throw 'expected FIELD node named "conjunction"';
-          r = indentIt() + '<conditional conjunction="' + n.innerText + '">\n';
+          if(getAttribute(n, 'name') != 'comparison_operator') throw 'expected FIELD node named "comparison_operator"';
+          r = indentIt() + '<comparison operator="' + n.innerText + '">\n';
           indent++;
           while(children.length > count){
             n = children[count];
@@ -126,7 +150,7 @@
           r += indentIt() + '</conditional>\n';
           break;
         default:
-          throw 'unknown type';
+          throw 'unknown type: ' + type;
           break;
       }
       indent--;
