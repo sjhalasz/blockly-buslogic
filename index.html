@@ -137,13 +137,14 @@
           if(n.tagName != "STATEMENT") throw 'expected STATEMENT node';
           if(getAttribute(n, 'name') != 'comparison_statement') throw 'expected "comparison_statement"';
           r += translateBlocks(n.childNodes);
-          r += '</comparison>\n';
+          r += indentIt() + '</comparison>\n';
           break;
         case 'variable':
           n = children[0];
           count = 1;
           if(n.tagName != 'FIELD') throw 'expected FIELD node';
           if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
+          if(isInvalidVariableName(n.innerText)) throw 'variable name cannot contain < > & $';
           r = indentIt() + '<variable>' + n.innerText + '</variable>\n';
           break;
         case 'value':
@@ -151,6 +152,7 @@
           count = 1;
           if(n.tagName != 'FIELD') throw 'expected FIELD node';
           if(getAttribute(n, 'name') != 'value_input') throw 'expected FIELD node named "value_input"';
+          if(isInvalidVariableName(n.innerText)) throw 'value cannot contain < > & $';
           r = indentIt() + '<value>' + n.innerText + '</value>\n';
           break;
         default:
