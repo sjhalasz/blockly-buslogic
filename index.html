@@ -3,10 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>Blockly Demo: Business Logic</title>
-  <script src="blockly_compressed.js"></script>
-  <script src="blocks_compressed.js"></script>
-  <script src="en.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/blockly_compressed.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/blocks_compressed.js"></script>
   <script src="blocks.js"></script>
+  <script src="utilities.js"></script>
+  <script src="translatedom.js"></script>
+  <script src="translatexml.js"></script>
+  <script src="tests.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/msg/js/en.js"></script>
   <style>
     body {
       background-color: #fff;
@@ -19,161 +23,52 @@
   </style>
 </head>
 <body>
-  <h1>Blockly Demo of Business Logic</h1>
-
-  <div id="blocklyDiv" style="height: 600px; width: 1200px;"></div>
-  <textarea id="textarea" style="height: 600px; width: 1200px;"></textarea>
+  <h1>Demo of Blockly for Business Logic <scan id="validIndicator" css="font-size:24px"></scan></h1>
+  <div id="blocklyDiv" style="height: 800px; width: 700px; float:left"></div>
+  <div id="tests" style="height: 800px; width: 1000px;float:left"></div>
+  <textarea id="message" style="height: 24px; width: 800px; color: red; vertical-align:top"></textarea>
+  <textarea id="code" style="height: 600px; width: 800px;"></textarea>
 
   <xml id="toolbox" style="display: none">
-    <block type="settlement_days"></block>
     <block type="set_variable"></block>
-    <block type="client"></block>
     <block type="conditional"></block>
     <block type="conjunction"></block>
     <block type="comparison"></block>
+    <block type="is_cash_client"></block>
+    <block type="security_type"></block>
     <block type="variable"></block>
     <block type="value"></block>
   </xml>
 
   <script>
-    var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')});
+    var workspace1 = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox'), comments: true, scrollbars: true});
+	 setTimeout(restoreBlocks, 0);
+	 addEventListener('unload', backupTests, false);
+	 addEventListener('unload', backupBlocks, false);
     function myUpdateFunction(event) {
-      var dom = Blockly.Xml.workspaceToDom(workspace);
-      document.getElementById('textarea').value = translateDom(dom);
-    }
-    workspace.addChangeListener(myUpdateFunction);  
-    function translateDom(dom){
-      if(dom.tagName != 'XML') throw 'expected XML tag';
-      if(dom.childNodes.length != 1) throw 'expected exactly one "settlement days" block';
-      var code = dom.childNodes[0]; // get code from <xml> wrapper
-      if(code.tagName != "BLOCK") throw 'expected "BLOCK" tag on "settlement_days" block';
-      if(getAttribute(code, 'type') !='settlement_days') throw 'expected block of type "settlement_days"';
-      code = code.childNodes;
-      if(code.length != 1) throw 'expected exactly one "days_calculation" statements input';
-      code = code[0];
-      if(code.tagName != 'STATEMENT') throw 'expected "STATEMENT" tag for "days_calculation"';
-      if(getAttribute(code, 'name') != 'days_calculation') throw 'expected name to be "days_calculation"';
-      indent = 0;
-      var r = translateBlocks(code.childNodes);
-      return '<settlement_days>\n' + r + '</settlement_days>\n';
-    }
-    function getAttribute(node, name){
-      var attributes = node.attributes;
-      for(var i = 0; i < attributes.length; i++){
-        if(attributes[i].name == name) return attributes[i].value;
-      }
-    }
-    function translateBlocks(nodes){
-      if(nodes.length != 1) throw 'expected exactly 1 child node in translateBlocks';
-      var node0 = nodes[0];
-      if(!node0.tagName == "BLOCK") throw 'expected BLOCK tag';
-      var children = node0.childNodes;
-      var type = getAttribute(node0, 'type');
-      indent++;
-      var n, count;
-      switch(type){
-        case 'set_variable':
-          n = children[0]; 
-          count = 1;
-          if(n.tagName != "FIELD") throw 'expected FIELD node in BLOCK';
-          if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
-          var variableName = n.innerText;
-          if(isInvalidVariableName(variableName)) throw "variable name can't have < > & %";
-          r = indentIt() + '<set_variable name="' + variableName + '">\n';
-          // may or may not be a "statement" node here with name "variable_value"
-          if(children.length > count){
-            n = children[count];
-            if(n.tagName == "STATEMENT"){
-              count++;
-              if(getAttribute(n, 'name') != 'variable_value') throw 'expected STATEMENT with name "variable_value"';
-              r += translateBlocks(n.childNodes);
-            }
-          }
-          r +=  indentIt() + '</set_variable>\n';
-          break;
-        case 'client':
-          n = children[0]; 
-          count = 1;
-          if(getAttribute(n, 'name') != 'client_code') throw 'expected FIELD node named "client_code"';
-          var clientCode = n.innerText;
-          r = indentIt() + '<client_code>' + clientCode + '</client_code>\n';
-          break;
-        case 'conditional':
-          r = indentIt() + '<conditional>\n';
-          indent++;
-          count = 0;
-          while(children.length > count){
-            n = children[count];
-            if(n.tagName != "STATEMENT")break;
-            count++;
-            var name = getAttribute(n, 'name');
-            switch(name){
-              case 'condition':
-                r += indentIt() + '<condition>\n';
-                r += translateBlocks(n.childNodes);
-                r += indentIt() + '</condition>\n';
-                break;
-              case '':
-                
-                break;
-              case '':
-                
-                break;
-              default:
-                throw 'name not found: ' + name;
-            }
-          }
-          indent--;
-          r += indentIt() + '</conditional>\n';
-          break;
-        case 'comparison':
-          n = children[0];
-          count = 1;
-          if(n.tagName != 'FIELD') throw 'expected FIELD node';
-          if(getAttribute(n, 'name') != 'comparison_operator') throw 'expected FIELD node named "comparison_operator"';
-          r = indentIt() + '<comparison operator="' + n.innerText + '">\n';
-          n = children[count];
-          count++;
-          if(n.tagName != "STATEMENT") throw 'expected STATEMENT node';
-          if(getAttribute(n, 'name') != 'comparison_statement') throw 'expected "comparison_statement"';
-          r += translateBlocks(n.childNodes);
-          r += indentIt() + '</comparison>\n';
-          break;
-        case 'variable':
-          n = children[0];
-          count = 1;
-          if(n.tagName != 'FIELD') throw 'expected FIELD node';
-          if(getAttribute(n, 'name') != 'variable_name') throw 'expected FIELD node named "variable_name"';
-          if(isInvalidVariableName(n.innerText)) throw 'variable name cannot contain < > & $';
-          r = indentIt() + '<variable>' + n.innerText + '</variable>\n';
-          break;
-        case 'value':
-          n = children[0];
-          count = 1;
-          if(n.tagName != 'FIELD') throw 'expected FIELD node';
-          if(getAttribute(n, 'name') != 'value_input') throw 'expected FIELD node named "value_input"';
-          if(isInvalidVariableName(n.innerText)) throw 'value cannot contain < > & $';
-          r = indentIt() + '<value>' + n.innerText + '</value>\n';
-          break;
-        default:
-          throw 'unknown type: ' + type;
-          break;
-      }
-      indent--;
-      // if there's another child node in node0 it's a "NEXT" ...
-      if(children.length > count){
-        n = children[count];
-        if(n.tagName != "NEXT") throw 'expected "NEXT" node in "set_variable"';
-        r += translateBlocks(n.childNodes);
-      }
-      return r;
-    }
-    function isInvalidVariableName(name){
-      return /[<>&%'"]/g.test(name);
-    }
-    function indentIt(){
-      return Array((2 * indent) + 1).join(' ');
-    }
+      var dom = Blockly.Xml.workspaceToDom(workspace1);
+      var xml = translateDom(dom);
+      if(xml){
+      	var js = translateXml(xml);
+      	document.getElementById('code').value = js.code;
+      	backupTests();
+      	buildTests(js);
+			restoreTests();
+   	} else {
+			document.getElementById('tests').innerHTML = '';   	
+   	}
+   }
+   workspace1.addChangeListener(myUpdateFunction);  
+	function restoreBlocks(){
+    	var xml = Blockly.Xml.textToDom(localStorage.getItem('blocks'));
+    	if(xml){
+	    	Blockly.Xml.domToWorkspace(workspace1, xml);
+	   }
+	}
+	function backupBlocks(){
+	   var xml = Blockly.Xml.workspaceToDom(workspace1);
+   	localStorage.setItem('blocks', Blockly.Xml.domToText(xml));
+	}
 </script>
 
 </body>
