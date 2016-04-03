@@ -1,35 +1,3 @@
-    flashingState = 0;
-    flashingMode = 0;
-    //flashBlock();
-    function selectBlock(node){
-    	flashingBlock = node.id;
-    	flashingState = 1;
-    }
-    function unSelectBlock(){
-    	flashingState = 0;
-    }
-    function flashBlock(){
-    	if(flashingState){
-    		switch(flashingMode){
-    		   case 0:
-    			Blockly.mainWorkspace.getBlockById(flashingBlock).select();	   
-    		   flashingMode = 1;
-    		   break;
-    		   case 1:
-    			Blockly.mainWorkspace.getBlockById(flashingBlock).unselect();	   
-    		   flashingMode = 0;
-    		   break;
-    			}
-    		} else {
-				if(flashingMode) {
-	    			Blockly.mainWorkspace.getBlockById(flashingBlock).unselect();	   
-   	 		   flashingMode = 0;
-				}   		
-    		}
-    	setTimeout(flashBlock, 1000 - 900 * flashingMode);
-    }
-
-
     function getAttribute(node, name){
       var attributes = node.attributes;
       for(var i = 0; i < attributes.length; i++){

@@ -5,12 +5,12 @@
   <title>Blockly Demo: Business Logic</title>
   <script src="https://blockly-demo.appspot.com/static/blockly_compressed.js"></script>
   <script src="https://blockly-demo.appspot.com/static/blocks_compressed.js"></script>
-  <script src="blocks.js"></script>
   <script src="utilities.js"></script>
   <script src="translatedom.js"></script>
   <script src="translatexml.js"></script>
   <script src="tests.js"></script>
   <script src="https://blockly-demo.appspot.com/static/msg/js/en.js"></script>
+  <script src="blocks.js"></script>
   <style>
     body {
       background-color: #fff;
@@ -48,14 +48,21 @@
     function myUpdateFunction(event) {
       var dom = Blockly.Xml.workspaceToDom(workspace1);
       var xml = translateDom(dom);
-      if(xml){
-      	var js = translateXml(xml);
-      	document.getElementById('code').value = js.code;
+      if(xml.valid){
+      	cancelWarningMessage();
+      	var js = translateXml(xml.code);
+        	validIndicator.innerHTML = '\u2713'; // check mark
+        	validIndicator.style.color = 'green';
+        	document.getElementById('code').value = js.code;
       	backupTests();
       	buildTests(js);
 			restoreTests();
    	} else {
-			document.getElementById('tests').innerHTML = '';   	
+			document.getElementById('code').value = '';
+		  	document.getElementById('tests').innerHTML = '';
+   	  	document.getElementById('message').value = xml.message;
+   	  	validIndicator.innerHTML = '\u2a02'; // circle X
+        	validIndicator.style.color = 'red';
    	}
    }
    workspace1.addChangeListener(myUpdateFunction);  

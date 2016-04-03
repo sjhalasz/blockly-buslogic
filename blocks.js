@@ -9,7 +9,8 @@
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
 Blockly.Blocks['is_cash_client'] = {
@@ -21,7 +22,8 @@ Blockly.Blocks['is_cash_client'] = {
     this.setTooltip('');
     this.setColour(120);
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
 security_type_list = [
@@ -43,7 +45,8 @@ Blockly.Blocks['security_type'] = {
     this.setTooltip('');
     this.setColour(120);
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
 Blockly.Blocks['conditional'] = {
@@ -66,7 +69,8 @@ Blockly.Blocks['conditional'] = {
     this.setColour(65);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
 Blockly.Blocks['comparison'] = {
@@ -83,7 +87,8 @@ Blockly.Blocks['comparison'] = {
     this.setColour(330);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
 Blockly.Blocks['conjunction'] = {
@@ -97,7 +102,8 @@ Blockly.Blocks['conjunction'] = {
     this.setColour(330);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
 Blockly.Blocks['variable'] = {
@@ -113,7 +119,8 @@ Blockly.Blocks['variable'] = {
     this.setTooltip('');
     this.setColour(120);
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
 Blockly.Blocks['value'] = {
@@ -129,6 +136,7 @@ Blockly.Blocks['value'] = {
     this.setTooltip('');
     this.setColour(120);
     this.setHelpUrl('http://www.example.com/');
-  }
+  },
+  onchange: blockChanged
 };
 
